@@ -1,7 +1,7 @@
-package com.example.demo.sec.service;
+package com.example.demo.service;
 
-import com.example.demo.sec.entities.AppRole;
-import com.example.demo.sec.entities.AppUser;
+import com.example.demo.entities.AppRole;
+import com.example.demo.entities.AppUser;
 
 import java.util.List;
 

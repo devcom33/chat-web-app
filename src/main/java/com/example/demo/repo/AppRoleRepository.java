@@ -1,6 +1,6 @@
-package com.example.demo.sec.repo;
+package com.example.demo.repo;
 
-import com.example.demo.sec.entities.AppRole;
+import com.example.demo.entities.AppRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AppRoleRepository extends JpaRepository<AppRole, Long> {

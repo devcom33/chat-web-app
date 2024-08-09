@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.sec.util.JwtUtil;
-import com.example.demo.sec.entities.AppRole;
-import com.example.demo.sec.entities.AppUser;
-import com.example.demo.sec.service.AccountService;
+import com.example.demo.entities.AppRole;
+import com.example.demo.entities.AppUser;
+import com.example.demo.service.AccountService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;

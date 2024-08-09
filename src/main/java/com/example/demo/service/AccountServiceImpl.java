@@ -1,10 +1,10 @@
-package com.example.demo.sec.service;
+package com.example.demo.service;
 
-import com.example.demo.sec.entities.AppRole;
-import com.example.demo.sec.entities.AppUser;
+import com.example.demo.entities.AppRole;
+import com.example.demo.entities.AppUser;
 
-import com.example.demo.sec.repo.AppRoleRepository;
-import com.example.demo.sec.repo.AppUserRepository;
+import com.example.demo.repo.AppRoleRepository;
+import com.example.demo.repo.AppUserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

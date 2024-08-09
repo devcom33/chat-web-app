@@ -1,8 +1,8 @@
 package com.example.demo;
 
-import com.example.demo.sec.entities.AppRole;
-import com.example.demo.sec.entities.AppUser;
-import com.example.demo.sec.service.AccountService;
+import com.example.demo.entities.AppRole;
+import com.example.demo.entities.AppUser;
+import com.example.demo.service.AccountService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
