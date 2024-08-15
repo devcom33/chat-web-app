@@ -30,7 +30,7 @@ public class MessagesSeviceImpl implements MessagesSevice {
         AppUser sender = appUserRepository.findByUsername(senderUsername);
         AppUser recipient = appUserRepository.findByUsername(messageDTO.getRecipientUsername());
 
-        Chat chat = chatRepositoy.findByMembersT(sender, recipient)
+        Chat chat = chatRepositoy.findByMembersContainingAndMembersContaining(sender, recipient)
                 .orElseGet(() -> {
                     Chat newChat = new Chat("Chat Between " + sender.getUsername() + " and " + recipient.getUsername(),
                             LocalDateTime.now(), LocalDateTime.now(),

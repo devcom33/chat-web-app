@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface ChatRepository extends JpaRepository<Chat, Long> {
     Optional<Chat> findByMembersContains(AppUser user);
-    Optional<Chat> findByMembersT(AppUser sender, AppUser recipient);
+    Optional<Chat> findByMembersContainingAndMembersContaining(AppUser sender, AppUser recipient);
 }
