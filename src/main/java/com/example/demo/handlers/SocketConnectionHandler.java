@@ -15,7 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.*;
 
 public class SocketConnectionHandler extends TextWebSocketHandler {
-    List<WebSocketSession> webSocketSessions = Collections.synchronizedList(new ArrayList<>());
+    //List<WebSocketSession> webSocketSessions = Collections.synchronizedList(new ArrayList<>());
     Map<String, WebSocketSession> sessionMap = Collections.synchronizedMap(new HashMap<>());
     @Autowired
     MessagesSevice messagesSevice;
@@ -35,10 +35,11 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
         if (tok != null && jwtUtil.validateToken(tok)) {
             username = jwtUtil.getUsernameFromToken(tok);
             System.out.println(username + " connected");
+            System.out.println("++++++++++++++++++++++");
         } else {
             System.out.println(session.getId() + " connected without a valid token");
         }
-        webSocketSessions.add(session);
+        //webSocketSessions.add(session);
         sessionMap.put(username, session);
     }
 
@@ -50,7 +51,7 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         super.afterConnectionClosed(session, status);
         System.out.println(session.getId() + " disconnected");
-        webSocketSessions.remove(session);
+        //webSocketSessions.remove(session);
         sessionMap.values().remove(session);
     }
 

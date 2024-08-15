@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 @Transactional
@@ -29,7 +30,7 @@ public class MessagesSeviceImpl implements MessagesSevice {
         AppUser sender = appUserRepository.findByUsername(senderUsername);
         AppUser recipient = appUserRepository.findByUsername(messageDTO.getRecipientUsername());
 
-        Chat chat = chatRepositoy.findByMembersContains(sender)
+        Chat chat = chatRepositoy.findByMembersT(sender, recipient)
                 .orElseGet(() -> {
                     Chat newChat = new Chat("Chat Between " + sender.getUsername() + " and " + recipient.getUsername(),
                             LocalDateTime.now(), LocalDateTime.now(),
@@ -46,5 +47,8 @@ public class MessagesSeviceImpl implements MessagesSevice {
         message.setRead(false);
 
         messagesRepository.save(message);
+    }
+    public List<Messages> listMessages() {
+        return messagesRepository.findAll();
     }
 }

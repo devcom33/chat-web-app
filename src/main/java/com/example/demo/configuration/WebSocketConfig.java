@@ -19,7 +19,7 @@ public class WebSocketConfig  implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(socketConnectionHandler(), "/hello")
-                .setAllowedOrigins("*"); // Adjust as needed
+                .setAllowedOrigins("*");
     }
 
     @Bean
