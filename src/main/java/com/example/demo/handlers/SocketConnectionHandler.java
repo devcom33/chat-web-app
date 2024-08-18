@@ -13,10 +13,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SocketConnectionHandler extends TextWebSocketHandler {
-    //List<WebSocketSession> webSocketSessions = Collections.synchronizedList(new ArrayList<>());
-    Map<String, WebSocketSession> sessionMap = Collections.synchronizedMap(new HashMap<>());
+    private final Map<String, WebSocketSession> sessionMap = new ConcurrentHashMap<>();
     @Autowired
     MessagesSevice messagesSevice;
     String username, tok;
@@ -39,7 +39,6 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
         } else {
             System.out.println(session.getId() + " connected without a valid token");
         }
-        //webSocketSessions.add(session);
         sessionMap.put(username, session);
     }
 
