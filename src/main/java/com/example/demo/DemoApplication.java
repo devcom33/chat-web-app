@@ -22,7 +22,7 @@ public class DemoApplication {
         SpringApplication.run(DemoApplication.class, args);
     }
 
-
+/*
 
     @Bean
     CommandLineRunner start(AccountService accountService){
@@ -32,22 +32,24 @@ public class DemoApplication {
 
 
 
-            accountService.addNewUser(new AppUser(null,"user1","1234",new ArrayList<>()));
-            accountService.addNewUser(new AppUser(null,"admin","1234",new ArrayList<>()));
-            accountService.addNewUser(new AppUser(null,"user2","1234",new ArrayList<>()));
-            accountService.addNewUser(new AppUser(null,"user3","1234",new ArrayList<>()));
-            accountService.addNewUser(new AppUser(null,"user4","1234",new ArrayList<>()));
+            accountService.addNewUser(new AppUser(null,"user1", "user1@gmail.com","+212 787827822","1234",new ArrayList<>()));
+            //accountService.addNewUser(new AppUser(null,"admin","1234",new ArrayList<>()));
+            accountService.addNewUser(new AppUser(null,"user2", "user2@gmail.com", "+212 787827822","1234",new ArrayList<>()));
+            accountService.addNewUser(new AppUser(null,"user3", "user3@gmail.com","+212 787827822","1234",new ArrayList<>()));
+            accountService.addNewUser(new AppUser(null,"user4", "user4@gmail.com","+212 787827822","1234",new ArrayList<>()));
 
 
             accountService.addRoleToUser("user1", "USER");
             accountService.addRoleToUser("user2", "USER");
             accountService.addRoleToUser("user3", "USER");
             accountService.addRoleToUser("user4", "USER");
-            accountService.addRoleToUser("admin", "ADMIN");
+            //accountService.addRoleToUser("admin", "ADMIN");
 
         };
 
     }
+
+ */
     @Bean
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();

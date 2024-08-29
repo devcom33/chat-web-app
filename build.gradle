@@ -24,7 +24,7 @@ dependencies {
 
     // Spring Boot Starter Data JPA for database access (if using a relational database)
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
+    implementation 'mysql:mysql-connector-java:8.0.33'
     // Spring Boot Starter Data REST for RESTful repositories
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 

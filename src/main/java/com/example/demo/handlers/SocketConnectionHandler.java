@@ -12,14 +12,17 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.springframework.web.util.UriComponentsBuilder;
 
 
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SocketConnectionHandler extends TextWebSocketHandler {
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private final Map<String, WebSocketSession> sessionMap = new ConcurrentHashMap<>();
+
     @Autowired
     MessagesSevice messagesSevice;
-    String username, tok;
+
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -30,16 +33,15 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         super.afterConnectionEstablished(session);
-
-        tok = getTokenFromSession(session);
-        if (tok != null && jwtUtil.validateToken(tok)) {
-            username = jwtUtil.getUsernameFromToken(tok);
+        String token = getTokenFromSession(session);
+        if (token != null && jwtUtil.validateToken(token)) {
+            String username = jwtUtil.getUsernameFromToken(token);
+            sessionMap.put(username, session);
             System.out.println(username + " connected");
-            System.out.println("++++++++++++++++++++++");
         } else {
-            System.out.println(session.getId() + " connected without a valid token");
+            System.out.println(session.getId() + " connected with an invalid or missing token");
+            session.close(CloseStatus.NOT_ACCEPTABLE.withReason("Invalid token"));
         }
-        sessionMap.put(username, session);
     }
 
     private String getTokenFromSession(WebSocketSession session) {
@@ -47,10 +49,11 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
         Map<String, String> queryParams = UriComponentsBuilder.fromUriString("?" + query).build().getQueryParams().toSingleValueMap();
         return queryParams.get("token");
     }
+
+    @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         super.afterConnectionClosed(session, status);
         System.out.println(session.getId() + " disconnected");
-        //webSocketSessions.remove(session);
         sessionMap.values().remove(session);
     }
 
@@ -59,20 +62,19 @@ public class SocketConnectionHandler extends TextWebSocketHandler {
         super.handleTextMessage(session, message);
         String payload = message.getPayload();
 
-        ObjectMapper objectMapper = new ObjectMapper();
         MessageDTO messageDTO = objectMapper.readValue(payload, MessageDTO.class);
         String senderUsername = jwtUtil.getUsernameFromToken(getTokenFromSession(session));
         WebSocketSession recipientSession = sessionMap.get(messageDTO.getRecipientUsername());
 
-        messagesSevice.saveMessageToDatabase(senderUsername, messageDTO);
+        // Save the message to the database
+        //messagesSevice.saveMessageToDatabase(senderUsername, messageDTO);
 
         if (recipientSession != null && recipientSession.isOpen()) {
+
             recipientSession.sendMessage(new TextMessage(objectMapper.writeValueAsString(messageDTO)));
         }
-        else{
-            System.out.println(session.getId() + " disconnected");
-        }
+
+        // Log the message type
+        System.out.println("Received message of type: " + messageDTO.getType());
     }
-
-
 }

@@ -7,6 +7,7 @@ import com.example.demo.service.AccountService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +38,26 @@ public class AccountRestController {
         String username = jwtUtil.getUsernameFromToken(token);
         AppUser user = accountService.loadUserByUsername(username);
         return ResponseEntity.ok(user);
+    }
+    @GetMapping(path = "/user/profile/{id}")
+    public ResponseEntity<AppUser> profile(@PathVariable Long id){
+        AppUser user = accountService.loadUserById(id);
+        return ResponseEntity.ok(user);
+    }
+    @GetMapping(path = "/user/{username}")
+    public ResponseEntity<AppUser> profile(@PathVariable String username){
+        AppUser user = accountService.loadUserByUsername(username);
+        return ResponseEntity.ok(user);
+    }
+    @PutMapping(path = "/profile/edit")
+    public ResponseEntity<AppUser> updateUser(@RequestBody AppUser appUser){
+        AppUser updatedUser = accountService.updateUser(appUser);
+
+        if (updatedUser != null) {
+            return ResponseEntity.ok(updatedUser);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @PostMapping(path="/roles")

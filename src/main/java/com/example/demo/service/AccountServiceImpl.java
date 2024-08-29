@@ -33,6 +33,10 @@ public class AccountServiceImpl implements AccountService {
         return appUserRepository.save(appUser);
     }
     @Override
+    public AppUser updateUser(AppUser appUser) {
+        return appUserRepository.save(appUser);
+    }
+    @Override
     public AppUser getUserById(Long id) {
         return appUserRepository.findById(id).orElse(null);
     }
@@ -53,6 +57,10 @@ public class AccountServiceImpl implements AccountService {
     public AppUser loadUserByUsername(String username) {
         System.out.println("Searching for user: " + appUserRepository.findByUsername(username));
         return appUserRepository.findByUsername(username);
+    }
+    @Override
+    public AppUser loadUserById(Long id){
+        return appUserRepository.findById(id).orElse(null);
     }
 
     @Override

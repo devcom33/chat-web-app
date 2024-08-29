@@ -7,7 +7,9 @@ public class MessageDTO {
 
     private String recipientUsername;
     private String content;
-    private String sender; // Add this field
+    private String sender;
+    private String type;
+
 
     // Default constructor
     public MessageDTO() {
@@ -18,13 +20,14 @@ public class MessageDTO {
     public MessageDTO(
             @JsonProperty("recipientUsername") String recipientUsername,
             @JsonProperty("content") String content,
-            @JsonProperty("sender") String sender) { // Include sender in constructor
+            @JsonProperty("sender") String sender,
+            @JsonProperty("type") String type) {
         this.recipientUsername = recipientUsername;
         this.content = content;
         this.sender = sender;
+        this.type = type;
     }
 
-    // Getters and setters
     public String getRecipientUsername() {
         return recipientUsername;
     }
@@ -47,5 +50,13 @@ public class MessageDTO {
 
     public void setSender(String sender) {
         this.sender = sender;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
