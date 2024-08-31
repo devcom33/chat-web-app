@@ -14,4 +14,8 @@ public interface AccountService {
     AppUser loadUserByUsername(String username);
     AppUser loadUserById(Long id);
     List<AppUser> listUsers();
+
+    void updatePassword(String username, String oldPassword, String newPassword);
+
+
 }

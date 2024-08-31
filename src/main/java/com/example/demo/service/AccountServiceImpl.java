@@ -5,6 +5,8 @@ import com.example.demo.entities.AppUser;
 
 import com.example.demo.repo.AppRoleRepository;
 import com.example.demo.repo.AppUserRepository;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +36,16 @@ public class AccountServiceImpl implements AccountService {
     }
     @Override
     public AppUser updateUser(AppUser appUser) {
-        return appUserRepository.save(appUser);
+        AppUser existingUser = appUserRepository.findById(appUser.getId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        if (appUser.getEmail() != null) {
+            existingUser.setEmail(appUser.getEmail());
+        }
+        if (appUser.getPhone() != null) {
+            existingUser.setEmail(appUser.getEmail());
+        }
+
+        return appUserRepository.save(existingUser);
     }
     @Override
     public AppUser getUserById(Long id) {
@@ -67,4 +78,23 @@ public class AccountServiceImpl implements AccountService {
     public List<AppUser> listUsers() {
         return appUserRepository.findAll();
     }
+
+    @Override
+    public void updatePassword(String username, String oldPassword, String newPassword) {
+        AppUser user = appUserRepository.findByUsername(username);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        // Check if the old password matches
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new RuntimeException("Old password is incorrect");
+        }
+
+        // Update the password
+        user.setPassword(passwordEncoder.encode(newPassword));
+        appUserRepository.save(user);
+    }
+
+
 }

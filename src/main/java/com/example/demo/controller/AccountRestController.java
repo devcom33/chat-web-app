@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.example.demo.DTO.PasswordUpdateRequest;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class AccountRestController {
     private AccountService accountService;
     @Autowired
     private JwtUtil jwtUtil;
+
 
     public AccountRestController(AccountService accountService) {
         this.accountService = accountService;
@@ -59,6 +61,11 @@ public class AccountRestController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
+    @PostMapping("/{username}/password")
+    public void updatePassword(@PathVariable String username,
+                               @RequestBody PasswordUpdateRequest request) {
+        accountService.updatePassword(username, request.getOldPassword(), request.getNewPassword());
+    }
 
     @PostMapping(path="/roles")
     public AppRole saveRole(@RequestBody AppRole appRole){
@@ -66,7 +73,7 @@ public class AccountRestController {
     }
 
     @PostMapping(path="/addRoleToUser")
-    public void addRoleToUser(@RequestBody RoleUserForm roleUserForm){
+    public void addRoleToUser(@RequestBody RoleUserForm roleUserForm) {
         accountService.addRoleToUser(roleUserForm.getUsername(), roleUserForm.getRoleName());
     }
 }
@@ -75,3 +82,4 @@ class RoleUserForm{
     private String username;
     private String roleName;
 }
+
